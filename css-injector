@@ -1,0 +1,60 @@
+#!/bin/bash
+
+
+# this script will take the css and inject it to an html file
+# by replacing the css link by a style tag containing the css code.
+
+
+#Steps
+# take the css and the html files as arguments
+# the css file should be the $1, and html $2
+# if this is not the case, show an error message and exit
+# after finding the right files
+# go into the html file, and find the link which points to the $1 css file
+# remove this line
+# add an empty line
+# echo out the content of $1, the css file into the html file within a style tag
+# delete the css file 
+
+
+
+if [[ "$1" != *.css  && "$2" != *.html ]]; then
+	echo "Error: Passed Wrong Arguments"
+	echo "Usage: css-injector <inject_from.css> <inject_to.html>"
+	exit 1;
+fi 
+
+
+csscode=$(cat "$1") ;
+tag=$(echo "
+			<!--- this code has been injected by the css-injector bash script --->
+			<!--- css  source file: $1 --->
+			<!--- html source file: $2 --->
+<style>
+		$csscode
+</style>
+");
+
+#find the link tag that leads to the css file, replace it with the styletag
+pattern=$( cat "$2" | grep "$1" );
+# now we need to cut the pattern form the html file and paste the css code 
+
+while IFS= read -r line; do
+	if [ "$line" = "$pattern"  ]; then 
+		echo "$tag" >> new"$2"
+	else
+      		echo "$line" >> new"$2"
+	fi
+done < "$2"
+
+echo "$1 source code has been injected into the new$2 file" ;
+echo "Do you want to delete $2 and $1 files y/n" ;
+read answer ;
+
+if [ "$answer" = 'y'  ]; then 
+	rm   $2 $1 ;
+else
+       	exit 2;
+fi
+
+
