@@ -3,7 +3,8 @@
 ## Description
 		CSS Injector - Bash Based CSS to Html Injector.
 
-This script is designed to take the linked css files declared inside an html file, read them and then inject the code into the html inside a <style> tag. The goal behind this command is to load the css inside your html, in order to minimize the http requests on the template rendering (gain more performance and space).
+This script is designed to take the linked css files declared inside an html file, read them and then inject the code into the html inside a <style> tag. The goal behind this command is to load the css inside your html, in order to minimize the http requests on the template rendering (gain more performance and space). The most optemized way to use this tool, is to add it into your build tasks.
+
 
 
 ## Setup
